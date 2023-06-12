@@ -7,13 +7,15 @@
 #include "Hazel/Events/Event.h"
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/ImGui/ImGuiLayer.h"
+#include "Hazel/Renderer/Shader.h"
+#include "Hazel/Renderer/Buffer.h"
 
 namespace Hazel {
 	class HAZEL_API Application
 	{
 	public:
 		Application();
-		virtual ~Application();
+		virtual ~Application() = default;
 		void Run();
 		void OnEvent(Event& e);
 		void PushLayer(Layer* layer);
@@ -25,13 +27,16 @@ namespace Hazel {
 
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
-
+		// windows and layers
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer; // innative imgui UI;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-
-		unsigned int m_VertexArray, m_VertexBuffer, m_IndexBuffer;
+		// graphics
+		unsigned int m_VertexArray;
+		std::unique_ptr<Shader> m_Shader;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 	private:
 		static Application* s_Instance;
 	};
