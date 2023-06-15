@@ -1,5 +1,7 @@
 #pragma once
 #include <cstdint>
+#include <vector>
+
 namespace Hazel {
 	enum class ShaderDataType
 	{
