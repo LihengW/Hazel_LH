@@ -22,6 +22,16 @@ void Hazel::OpenGLContext::Init()
 	HZ_CORE_TRACE("  Vendor: {0}", (const void*)glGetString(GL_VENDOR));
 	HZ_CORE_TRACE("  Renderer: {0}", (const void*)glGetString(GL_RENDERER));
 	HZ_CORE_TRACE("  Version: {0}", (const void*)glGetString(GL_VERSION));
+
+#ifdef HZ_ENABLE_ASSERTS
+	int versionMajor;
+	int versionMinor;
+	glGetIntegerv(GL_MAJOR_VERSION, &versionMajor);
+	glGetIntegerv(GL_MINOR_VERSION, &versionMinor);
+
+	HZ_CORE_INFO("OpenGL Version:" + std::to_string(versionMajor) + "." + std::to_string(versionMinor));
+	
+#endif
 }
 
 void Hazel::OpenGLContext::SwapBuffers()

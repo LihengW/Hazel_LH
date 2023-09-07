@@ -27,7 +27,6 @@ namespace Hazel {
 
 	WindowsWindow::~WindowsWindow()
 	{
-		delete m_Context;
 		Shutdown();
 	}
 
@@ -48,7 +47,7 @@ namespace Hazel {
 
 		m_window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str()
 			, nullptr, nullptr);
-		m_Context = new OpenGLContext(m_window);
+		m_Context = CreateScope<OpenGLContext>(m_window);
 		m_Context->Init();
 		glfwSetWindowUserPointer(m_window, &m_Data);
 		SetVSync(true);
