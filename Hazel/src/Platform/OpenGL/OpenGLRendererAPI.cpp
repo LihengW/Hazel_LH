@@ -7,7 +7,8 @@ namespace Hazel {
 	void OpenGLRendererAPI::Init()
 	{
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);  // Transparent Render
+		glEnable(GL_DEPTH_TEST); // depth_Test for blocking
 	}
 
 	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)

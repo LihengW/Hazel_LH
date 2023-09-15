@@ -4,6 +4,7 @@
 #include "imgui/imgui.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "Sandbox2D.h"
 
 class ExampleLayer : public Hazel::Layer
 {
@@ -13,7 +14,7 @@ public:
 	{
 
 		// First Buffer ( Triangle )
-		m_VertexArray = Hazel::CreateRef<Hazel::VertexArray>();
+		m_VertexArray = Hazel::VertexArray::Create();
 
 		float vertices[3 * 7] =
 		{
@@ -37,7 +38,7 @@ public:
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 		// Second Buffer (Square)
-		m_SquareVA = Hazel::CreateRef<Hazel::VertexArray>();
+		m_SquareVA = Hazel::VertexArray::Create();
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
@@ -125,8 +126,8 @@ public:
 		m_Texture = Hazel::Texture2D::Create("assets/textures/dog.jpg");
 		m_ChernoLogoTexture = Hazel::Texture2D::Create("assets/textures/ChernoLogo.png");
 
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->Bind();
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
+		textureShader->Bind();
+		textureShader->SetInt("u_Texture", 0);
 
 	}
 
@@ -140,14 +141,14 @@ public:
 		Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.05f));
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->Bind();
+		m_FlatColorShader->Bind();
 
 		for (int y = -10; y < 10; y++)
 		{
 			for (int x = -10; x < 10; x++)
 			{
 				glm::vec3 pos(x * 0.06f, y * 0.06f, 0.0f);
-				std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", pos);
+				m_FlatColorShader->SetFloat3("u_Color", pos);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
 				Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
 			}
@@ -207,7 +208,7 @@ class Sandbox : public Hazel::Application
 public:
 	Sandbox() 
 	{ 
-		PushLayer(new ExampleLayer()); 
+		PushLayer(new Sandbox2D());
 		PushOverlay(new Hazel::ImGuiLayer());
 	};
 	~Sandbox() {};
