@@ -1,2 +1,2 @@
 # Hazel_Learn
-Copy of Hazel of Cherno
+This is a game engine which is still under construction, most of the knowledge and codes comes from The Cherno. I will try to update it as fast as I can. 
