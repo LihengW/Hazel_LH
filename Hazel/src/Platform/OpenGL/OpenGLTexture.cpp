@@ -6,7 +6,7 @@ namespace Hazel {
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height)
 		:m_Width(width), m_Height(height)
 	{
-		GLenum m_InternalFormat = GL_RGBA8, m_DataFormat = GL_RGBA;
+		m_InternalFormat = GL_RGBA8, m_DataFormat = GL_RGBA;
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
 		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
@@ -21,6 +21,8 @@ namespace Hazel {
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path)
 		: m_Path(path)
 	{
+		m_InternalFormat = GL_RGBA8, m_DataFormat = GL_RGBA;
+
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(1);
 		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);

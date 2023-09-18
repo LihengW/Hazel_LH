@@ -18,14 +18,19 @@ public:
 
 private:
 	Hazel::OrthographicCameraController m_CameraController;
+	//Hazel::Ref<Hazel::PerspectiveCamera> m_PerspectiveCamera;
 
 	//Temp
 	Hazel::Ref<Hazel::VertexArray> m_SquareVA;
-	Hazel::Ref<Hazel::Shader> m_FlatColorShader;
-
 	std::vector<Hazel::Ref<Hazel::Texture2D>> m_Textureslots;
 
-	glm::vec4 m_SquareColor = { 0.2f,0.3f,0.8f,1.0f };
+	// profilling part
+	struct ProfileResult
+	{
+		const char* Name;
+		float Time;
+	};
 
+	std::vector<ProfileResult> m_ProfileResults;
 };
 

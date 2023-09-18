@@ -1,7 +1,7 @@
 #pragma once
 
 // For use by Hazel APP
-
+#include "Hazel/Core/Core.h"
 #include "Hazel/Core/Application.h"
 #include "Hazel/Core/Layer.h"
 #include "Hazel/Core/Log.h"
@@ -24,4 +24,5 @@
 
 #include "Hazel/Renderer/OrthographicCamera.h"
 #include "Hazel/Renderer/OrthographicCameraController.h"
+#include "Hazel/Renderer/PerspectiveCamera.h"
 // ------------------------

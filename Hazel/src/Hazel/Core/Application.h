@@ -1,6 +1,6 @@
 #pragma once
-#include "Core.h"
-#include "Window.h"
+#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Window.h"
 
 #include "Hazel/Core/LayerStack.h"
 
@@ -16,7 +16,7 @@ namespace Hazel {
 	{
 	public:
 		Application();
-		virtual ~Application() = default;
+		virtual ~Application();
 		void Run();
 		void OnEvent(Event& e);
 		void PushLayer(Layer* layer);
@@ -31,7 +31,7 @@ namespace Hazel {
 		bool OnWindowResize(WindowResizeEvent& e);
 
 		// windows and layers
-		std::unique_ptr<Window> m_Window;
+		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer; // innative imgui UI;
 		bool m_Running = true;
 		bool m_Minimized = false;

@@ -10,6 +10,11 @@ namespace Hazel {
 			s_RendererAPI->Init();
 		}
 
+		inline static void Shutdown()
+		{
+			Clear();
+		}
+
 		inline static void SetClearColor(const glm::vec4& color)
 		{
 			s_RendererAPI->SetClearColor(color);

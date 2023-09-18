@@ -4,6 +4,7 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "RenderCommand.h"
+#include "PerspectiveCamera.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -46,7 +47,7 @@ namespace Hazel {
 
 		s_Data->QuadShader->Bind();
 		s_Data->QuadShader->SetInt("u_Texture", 0);  // bind to slot 0;
-
+		s_Data->QuadShader->SetMat4("u_Transform", glm::mat4(1.0f));
 
 		float whitepixel[4]{ 1.0f, 1.0f, 1.0f, 1.0f };
 		s_Data->WhiteTex = Texture2D::Create(1, 1);
@@ -65,6 +66,13 @@ namespace Hazel {
 		s_Data->QuadShader->SetMat4("u_Transform", glm::mat4(1.0f));
 	}
 
+	void Renderer2D::BeginScene(const PerspectiveCamera& camera)
+	{
+		s_Data->QuadShader->Bind();
+		s_Data->QuadShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+		s_Data->QuadShader->SetMat4("u_Transform", glm::mat4(1.0f));
+	}
+
 	void Renderer2D::EndScene()
 	{
 	}
@@ -77,9 +85,11 @@ namespace Hazel {
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
 	{
 		s_Data->QuadShader->Bind();
+		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		s_Data->QuadShader->SetMat4("u_Transform", transform);
 		s_Data->QuadShader->SetFloat4("u_Color", color);
-		s_Data->QuadVertexArray->Bind();
 		s_Data->WhiteTex->Bind(0);
+		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 
 	}
