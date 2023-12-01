@@ -49,37 +49,29 @@ Texture Library is also available Now. Common picture files like jpg / png can b
 
 *follow the tradition of OpenGL, before assign the Texture to specific sampler or mesh data, you need to Bind() them first. The basic usage is like:*
 
+![s](docs/Texture.png)
+
+In a word, all you need to do is Create and Bind them, then offer the slot ID to the shader, the Texture class will automaticlly do the trick!
+
 #### Camera
 
 Surely this engine involves cameras, at present, only Orthographical Camera and Perspective Camera are usable, we havn't compeleted the development of Physical Camera yet. Basic elements like field of view and viewport are set correctly. However, there is no much use in 2D system for a camera, so this class is very simple now.
-
-
 
 ### 3D Renderer Based on OpenGL
 
 coming soon
 
-
-
 *As we all know, the renderer is the core of a game engine, but even a basic game engine involve far more than graphics. Following features will be introduced apart from rendering technology and graphics.*
-
-
 
 ### Events & Inputs
 
 Swirl created an event system to handle all the information passing from the operation system to the game and even more. The basic idea is that when users create a event by making movements in their computers, the event will be dispatched into several classes and handled layer by layer in the layerstack. The structure can be easily explained by following picture:
 
-
-
  In a word, all the game designer need to do is creating the layers. With these layers, the designers can freely code what they want to deal with the event. Also, the order of events' responses can be defined freely by properly organizing the layers. 
-
-
 
 ### GUI
 
 The whole GUI of Swirl is made of Imgui components. This is a very cool GUI library, it offers great and easily adjustable components of GUI. These dockable and resizable windows are surely useful for the engine. The basic usage can be found in their docs.
-
-
 
 ## Coming:
 
@@ -92,7 +84,5 @@ The whole GUI of Swirl is made of Imgui components. This is a very cool GUI libr
 *At present, two example projects are offered. One of them is a simple rendered scene, and the other is a pretty little game. The examples will be updated soon with the development of the engine.*
 
 ### Regular Sandbox
-
-
 
 ### Demo Game
