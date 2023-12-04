@@ -1,13 +1,18 @@
 workspace "Swirl"
-    architecture "x64"
-    startproject "Sandbox"
-    
-    configurations
-    {
-        "Debug",
-        "Release",
-        "Dist"
-    }
+	architecture "x64"
+	startproject "Sandbox"
+
+	configurations
+	{
+		"Debug",
+		"Release",
+		"Dist"
+	}
+	
+	flags
+	{
+		"MultiProcessorCompile"
+	}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
@@ -15,7 +20,6 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Swirl/vendor/GLFW/include"
 IncludeDir["Glad"] = "Swirl/vendor/Glad/include"
-IncludeDir["spdlog"] = "Swirl/vendor/spdlog/include"
 IncludeDir["ImGui"] = "Swirl/vendor/imgui"
 IncludeDir["glm"] = "Swirl/vendor/glm"
 IncludeDir["stb_image"] = "Swirl/vendor/stb_image"
@@ -28,126 +32,130 @@ group "Dependencies"
 group ""
 
 project "Swirl"
-    location "Swirl"
-    kind "StaticLib"
-    language "C++"
-    cppdialect "C++17"
+	location "Swirl"
+	kind "StaticLib"
+	language "C++"
+	cppdialect "C++17"
 	staticruntime "on"
 
-    targetdir  ("bin/" ..outputdir.. "/%{prj.name}")
-    objdir  ("bin-int/" ..outputdir.. "/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-    pchheader "hzpch.h"
+	pchheader "hzpch.h"
 	pchsource "Swirl/src/hzpch.cpp"
 
-    files
-    {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp",
-        "%{prj.name}/vendor/glm/glm/**.hpp",
-		"%{prj.name}/vendor/glm/glm/**.inl",
-        "%{prj.name}/vendor/stb_image/**.h",
-		"%{prj.name}/vendor/stb_image/**.cpp",
-    }
-
-    defines
+	files
 	{
-		"_CRT_SECURE_NO_WARNINGS"
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
-    includedirs 
-    {
-        "%{prj.name}/src",
-        "%{IncludeDir.spdlog}",
-        "%{IncludeDir.GLFW}",
-        "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}",
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS",
+	}
+
+	includedirs
+	{
+		"%{prj.name}/src",
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}"
-    }
+	}
 
-    links
-    {
-        "GLFW",
-        "Glad",
-        "ImGui",
-        "opengl32.lib"
-    }
+	links 
+	{ 
+		"GLFW",
+		"Glad",
+		"ImGui",
+		"opengl32.lib"
+	}
 
-    filter "system:windows"
-        systemversion "latest"
+	filter "system:windows"
+		systemversion "latest"
 
-        defines
-        {
-            "HZ_PLATFORM_WINDOWS",
-            "HZ_BUILD_DLL",
-            "GLFW_INCLUDE_NONE"
-        }
+		defines
+		{
+			"HZ_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE"
+		}
 
-    filter "configurations:Debug"
-        defines "HZ_DEBUG"
-        runtime "Debug"
-        symbols "on"
+	filter "configurations:Debug"
+		defines "HZ_DEBUG"
+		runtime "Debug"
+		symbols "on"
 
-    filter "configurations:Release"
-        defines "HZ_RELEASE"
-        runtime "Release"
-        optimize "on"
+	filter "configurations:Release"
+		defines "HZ_RELEASE"
+		runtime "Release"
+		optimize "on"
 
-    filter "configurations:Dist"
-        defines "HZ_DIST"
-        runtime "Release"
-        optimize "on"
-
+	filter "configurations:Dist"
+		defines "HZ_DIST"
+		runtime "Release"
+		optimize "on"
 
 project "Sandbox"
-    location "Sandbox"
-    kind "ConsoleApp"
-    language "C++"
-    cppdialect "C++17"
-    staticruntime "on"
+	location "Sandbox"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
 
-    targetdir  ("bin/" ..outputdir.. "/%{prj.name}")
-    objdir  ("bin-int/" ..outputdir.. "/%{prj.name}")
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
-    files
-    {
-        "%{prj.name}/src/**.h",
-        "%{prj.name}/src/**.cpp"
-    }
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
 
-    includedirs
-    {
-        "%{IncludeDir.spdlog}",
-        "Swirl/src",
-        "Swirl/vendor",
-		"%{IncludeDir.glm}"
-    }
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS",
+	}
 
-    links
-    {
-        "Swirl"
-    }
+	includedirs
+	{
+		"Swirl/src",
+		"Swirl/vendor",
+		"Swirl/vendor/spdlog/include",
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
+	}
 
-    filter "system:windows"
-        systemversion "latest"
+	links
+	{
+		"Swirl"
+	}
 
-        defines
-        {
-            "HZ_PLATFORM_WINDOWS",
-        }
+	filter "system:windows"
+		systemversion "latest"
 
-    filter "configurations:Debug"
-        defines "HZ_DEBUG"
-        runtime "Debug"
-        symbols "on"
+		defines
+		{
+			"HZ_PLATFORM_WINDOWS"
+		}
+		
+	filter "configurations:Debug"
+		defines "HZ_DEBUG"
+		runtime "Debug"
+		symbols "on"
 
-    filter "configurations:Release"
-        defines "HZ_RELEASE"
-        runtime "Release"
-        optimize "on"
+	filter "configurations:Release"
+		defines "HZ_RELEASE"
+		runtime "Release"
+		optimize "on"
 
-    filter "configurations:Dist"
-        defines "HZ_DIST"
-        runtime "Release"
-        optimize "on"
+	filter "configurations:Dist"
+		defines "HZ_DIST"
+		runtime "Release"
+		optimize "on"

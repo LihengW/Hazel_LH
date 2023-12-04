@@ -13,7 +13,7 @@
 		#define HAZEL_API 
 	#endif
 #else
-	#error Hazel only support Windows
+	#error Swirl only support Windows
 #endif
 
 #ifdef HZ_DEBUG
