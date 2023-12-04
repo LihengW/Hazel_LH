@@ -1,4 +1,4 @@
-workspace "Hazel"
+workspace "Swirl"
     architecture "x64"
     startproject "Sandbox"
     
@@ -13,22 +13,22 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
-IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
-IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
-IncludeDir["spdlog"] = "Hazel/vendor/spdlog/include"
-IncludeDir["ImGui"] = "Hazel/vendor/imgui"
-IncludeDir["glm"] = "Hazel/vendor/glm"
-IncludeDir["stb_image"] = "Hazel/vendor/stb_image"
+IncludeDir["GLFW"] = "Swirl/vendor/GLFW/include"
+IncludeDir["Glad"] = "Swirl/vendor/Glad/include"
+IncludeDir["spdlog"] = "Swirl/vendor/spdlog/include"
+IncludeDir["ImGui"] = "Swirl/vendor/imgui"
+IncludeDir["glm"] = "Swirl/vendor/glm"
+IncludeDir["stb_image"] = "Swirl/vendor/stb_image"
 
 group "Dependencies"
-	include "Hazel/vendor/GLFW"
-	include "Hazel/vendor/Glad"
-	include "Hazel/vendor/imgui"
+	include "Swirl/vendor/GLFW"
+	include "Swirl/vendor/Glad"
+	include "Swirl/vendor/imgui"
 
 group ""
 
-project "Hazel"
-    location "Hazel"
+project "Swirl"
+    location "Swirl"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
@@ -38,7 +38,7 @@ project "Hazel"
     objdir  ("bin-int/" ..outputdir.. "/%{prj.name}")
 
     pchheader "hzpch.h"
-	pchsource "Hazel/src/hzpch.cpp"
+	pchsource "Swirl/src/hzpch.cpp"
 
     files
     {
@@ -119,14 +119,14 @@ project "Sandbox"
     includedirs
     {
         "%{IncludeDir.spdlog}",
-        "Hazel/src",
-        "Hazel/vendor",
+        "Swirl/src",
+        "Swirl/vendor",
 		"%{IncludeDir.glm}"
     }
 
     links
     {
-        "Hazel"
+        "Swirl"
     }
 
     filter "system:windows"

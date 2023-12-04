@@ -1,12 +1,12 @@
-#include "Hazel.h"
-#include "Hazel/Core/EntryPoint.h"
+#include "Swirl.h"
+#include "Swirl/Core/EntryPoint.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 #include "imgui/imgui.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "Sandbox2D.h"
 
-class ExampleLayer : public Hazel::Layer
+class ExampleLayer : public Swirl::Layer
 {
 public:
 	ExampleLayer()
@@ -14,7 +14,7 @@ public:
 	{
 
 		// First Buffer ( Triangle )
-		m_VertexArray = Hazel::VertexArray::Create();
+		m_VertexArray = Swirl::VertexArray::Create();
 
 		float vertices[3 * 7] =
 		{
@@ -23,39 +23,39 @@ public:
 			 0.0f,  0.5f, 0.0f, 0.8f, 0.8f, 0.2f, 1.0f
 		};
 
-		Hazel::Ref<Hazel::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Hazel::VertexBuffer::Create(vertices, sizeof(vertices)));
-		Hazel::BufferLayout layout = {
-			{ Hazel::ShaderDataType::Float3, "a_Position" },
-			{ Hazel::ShaderDataType::Float4, "a_Color" }
+		Swirl::Ref<Swirl::VertexBuffer> vertexBuffer;
+		vertexBuffer.reset(Swirl::VertexBuffer::Create(vertices, sizeof(vertices)));
+		Swirl::BufferLayout layout = {
+			{ Swirl::ShaderDataType::Float3, "a_Position" },
+			{ Swirl::ShaderDataType::Float4, "a_Color" }
 		};
 		vertexBuffer->SetLayout(layout);
 		m_VertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		Hazel::Ref<Hazel::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Hazel::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+		Swirl::Ref<Swirl::IndexBuffer> indexBuffer;
+		indexBuffer.reset(Swirl::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 		m_VertexArray->SetIndexBuffer(indexBuffer);
 
 		// Second Buffer (Square)
-		m_SquareVA = Hazel::VertexArray::Create();
+		m_SquareVA = Swirl::VertexArray::Create();
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
 			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
 			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f
 		};
-		Hazel::Ref<Hazel::VertexBuffer> squareBuffer;
-		squareBuffer.reset(Hazel::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		Hazel::BufferLayout squareLayout = {
-			{ Hazel::ShaderDataType::Float3, "a_Position" },
-			{ Hazel::ShaderDataType::Float2, "a_TexCoord" }
+		Swirl::Ref<Swirl::VertexBuffer> squareBuffer;
+		squareBuffer.reset(Swirl::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		Swirl::BufferLayout squareLayout = {
+			{ Swirl::ShaderDataType::Float3, "a_Position" },
+			{ Swirl::ShaderDataType::Float2, "a_TexCoord" }
 		};
 		squareBuffer->SetLayout(squareLayout);
 		m_SquareVA->AddVertexBuffer(squareBuffer);
 		uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-		Hazel::Ref<Hazel::IndexBuffer> squareIB;
-		squareIB.reset(Hazel::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		Swirl::Ref<Swirl::IndexBuffer> squareIB;
+		squareIB.reset(Swirl::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVA->SetIndexBuffer(squareIB);
 
 		// Triangle Shader
@@ -90,7 +90,7 @@ public:
 			}
 		)";
 
-		m_Shader = Hazel::Shader::Create("VertexPosColor", vertexSrc, fragmentSrc);
+		m_Shader = Swirl::Shader::Create("VertexPosColor", vertexSrc, fragmentSrc);
 
 		// Square Shader
 		std::string flatColorShaderVertexSrc = R"(
@@ -119,26 +119,26 @@ public:
 			}
 		)";
 
-		m_FlatColorShader = Hazel::Shader::Create("FlatColor", flatColorShaderVertexSrc, flatColorShaderFragmentSrc);
+		m_FlatColorShader = Swirl::Shader::Create("FlatColor", flatColorShaderVertexSrc, flatColorShaderFragmentSrc);
 
 		auto textureShader = m_ShaderLib.Load("assets/shaders/Texture.glsl");
 
-		m_Texture = Hazel::Texture2D::Create("assets/textures/dog.jpg");
-		m_ChernoLogoTexture = Hazel::Texture2D::Create("assets/textures/ChernoLogo.png");
+		m_Texture = Swirl::Texture2D::Create("assets/textures/dog.jpg");
+		m_ChernoLogoTexture = Swirl::Texture2D::Create("assets/textures/ChernoLogo.png");
 
 		textureShader->Bind();
 		textureShader->SetInt("u_Texture", 0);
 
 	}
 
-	void OnUpdate(Hazel::Timestep ts) override
+	void OnUpdate(Swirl::Timestep ts) override
 	{
 		m_CameraController.OnUpdate(ts);
 
-		Hazel::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-		Hazel::RenderCommand::Clear();
+		Swirl::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+		Swirl::RenderCommand::Clear();
 
-		Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
+		Swirl::Renderer::BeginScene(m_CameraController.GetCamera());
 
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.05f));
 		m_FlatColorShader->Bind();
@@ -150,21 +150,21 @@ public:
 				glm::vec3 pos(x * 0.06f, y * 0.06f, 0.0f);
 				m_FlatColorShader->SetFloat3("u_Color", pos);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
+				Swirl::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
 			}
 		}
 
-		Hazel::Renderer::Submit(m_Shader, m_VertexArray);
+		Swirl::Renderer::Submit(m_Shader, m_VertexArray);
 
 		auto textureShader = m_ShaderLib.Get("Texture");
 
 		m_Texture->Bind();
-		Hazel::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
+		Swirl::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
 
 		m_ChernoLogoTexture->Bind();
-		Hazel::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
+		Swirl::Renderer::Submit(textureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
 
-		Hazel::Renderer::EndScene();
+		Swirl::Renderer::EndScene();
 	}
 
 	virtual void OnImGuiRender() override
@@ -174,25 +174,25 @@ public:
 		ImGui::End();
 	}
 
-	void OnEvent(Hazel::Event& event) override
+	void OnEvent(Swirl::Event& event) override
 	{
 		m_CameraController.OnEvent(event);
 	}
 
 private:
-	Hazel::Ref<Hazel::Shader> m_Shader;
-	Hazel::Ref<Hazel::VertexArray> m_VertexArray;
+	Swirl::Ref<Swirl::Shader> m_Shader;
+	Swirl::Ref<Swirl::VertexArray> m_VertexArray;
 
-	Hazel::Ref<Hazel::Shader> m_FlatColorShader;
-	Hazel::Ref<Hazel::VertexArray> m_SquareVA;
+	Swirl::Ref<Swirl::Shader> m_FlatColorShader;
+	Swirl::Ref<Swirl::VertexArray> m_SquareVA;
 
-	Hazel::Ref<Hazel::Texture2D> m_Texture, m_ChernoLogoTexture;
-	Hazel::Ref<Hazel::Shader> m_TextureShader;
+	Swirl::Ref<Swirl::Texture2D> m_Texture, m_ChernoLogoTexture;
+	Swirl::Ref<Swirl::Shader> m_TextureShader;
 
-	Hazel::ShaderLib m_ShaderLib;
+	Swirl::ShaderLib m_ShaderLib;
 
 
-	Hazel::OrthographicCameraController m_CameraController;
+	Swirl::OrthographicCameraController m_CameraController;
 	glm::vec3 m_CameraPosition = glm::vec3();
 	float m_CameraMoveSpeed = 5.0f;
 
@@ -203,13 +203,13 @@ private:
 
 };
 
-class Sandbox : public Hazel::Application
+class Sandbox : public Swirl::Application
 {
 public:
 	Sandbox() 
 	{ 
 		PushLayer(new Sandbox2D());
-		PushOverlay(new Hazel::ImGuiLayer());
+		PushOverlay(new Swirl::ImGuiLayer());
 	};
 	~Sandbox() {};
 
@@ -218,7 +218,7 @@ private:
 
 };
 
-Hazel::Application* Hazel::CreateApplication()
+Swirl::Application* Swirl::CreateApplication()
 {
 	return new Sandbox();
 }

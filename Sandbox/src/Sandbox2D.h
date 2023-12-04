@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Hazel.h"
+#include "Swirl.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
-class Sandbox2D : public Hazel::Layer
+class Sandbox2D : public Swirl::Layer
 {
 public:
 	Sandbox2D();
@@ -12,17 +12,17 @@ public:
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
 
-	void OnUpdate(Hazel::Timestep ts) override;
+	void OnUpdate(Swirl::Timestep ts) override;
 	virtual void OnImGuiRender() override;
-	void OnEvent(Hazel::Event& e) override;
+	void OnEvent(Swirl::Event& e) override;
 
 private:
-	Hazel::OrthographicCameraController m_CameraController;
-	//Hazel::Ref<Hazel::PerspectiveCamera> m_PerspectiveCamera;
+	Swirl::OrthographicCameraController m_CameraController;
+	//Swirl::Ref<Swirl::PerspectiveCamera> m_PerspectiveCamera;
 
 	//Temp
-	Hazel::Ref<Hazel::VertexArray> m_SquareVA;
-	std::vector<Hazel::Ref<Hazel::Texture2D>> m_Textureslots;
+	Swirl::Ref<Swirl::VertexArray> m_SquareVA;
+	std::vector<Swirl::Ref<Swirl::Texture2D>> m_Textureslots;
 
 	// profilling part
 	struct ProfileResult
