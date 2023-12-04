@@ -1,0 +1,12 @@
+[submodule "Swirl/vendor/spdlog"]
+	path = Swirl/vendor/spdlog
+	url = http://github.com/gabime/spdlog
+[submodule "Swirl/vendor/GLFW"]
+	path = Swirl/vendor/GLFW
+	url = https://github.com/TheCherno/glfw
+[submodule "Swirl/vendor/imgui"]
+	path = Swirl/vendor/imgui
+	url = https://github.com/TheCherno/imgui
+[submodule "Swirl/vendor/glm"]
+	path = Swirl/vendor/glm
+	url = http://github.com/g-truc/glm
